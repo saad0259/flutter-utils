@@ -1,21 +1,21 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:community_material_icon/community_material_icon.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:community_material_icon/community_material_icon.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easypay_customer/theme.dart';
+// import 'package:easypay_customer/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
+// import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:page_transition/page_transition.dart';
+// import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'app_images.dart';
-import 'color.dart';
+import '../view/app_constants/app_images.dart';
+import './theme/theme.dart';
+
+// import 'app_images.dart';
+// import 'color.dart';
 
 //* This Function is specific to this project
 double getPriceFromTotal(double total, double tax) {
@@ -26,6 +26,9 @@ double getPriceFromTotal(double total, double tax) {
 double getTaxFromTotal(double total, double tax) {
   return total - (total / (1 + tax / 100));
 }
+
+String? Function(String?) get passwordValidator => (String? password) =>
+    (password?.length ?? 0) < 8 ? "Password too short" : null;
 
 String? Function(String?) get mandatoryValidator =>
     (String? val) => val?.isEmpty ?? true ? 'mandatoryFieldError'.tr() : null;
@@ -58,13 +61,10 @@ String parseDateTime(DateTime date) {
   return "${parseDate(date)} ${parseTime(date)}";
 }
 
-Future<dynamic> push(BuildContext context, Widget child, String routeName) {
-  return Navigator.of(context).push(
-    PageTransition(
-      type: PageTransitionType.rightToLeft,
-      child: child,
-      curve: Curves.linear,
-      isIos: Platform.isIOS,
+void push(BuildContext context, Widget child, String routeName) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => child,
       settings: RouteSettings(name: routeName),
     ),
   );
@@ -74,42 +74,30 @@ void popTillFirst(BuildContext context) {
   Navigator.of(context).popUntil((route) => route.isFirst);
 }
 
-void pop(BuildContext context, {dynamic message}) {
-  Navigator.of(context).pop(message);
-}
+void pop(BuildContext context) => Navigator.of(context).pop();
 
 void replace(BuildContext context, Widget child, String routeName) {
-  Navigator.of(context).pushReplacement(
-    PageTransition(
-      type: PageTransitionType.rightToLeft,
-      child: child,
-      curve: Curves.linear,
-      isIos: Platform.isIOS,
-      settings: RouteSettings(name: routeName),
-    ),
-  );
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (context) => child,
+    settings: RouteSettings(name: routeName),
+  ));
 }
 
-void navigateWithReplaceUntil(BuildContext context, Widget child) {
+void pushWithReplaceUntil(BuildContext context, Widget child) {
   Navigator.of(context).pushAndRemoveUntil(
-      PageTransition(
-        type: PageTransitionType.rightToLeft,
-        child: child,
-        curve: Curves.linear,
-        isIos: Platform.isIOS,
-      ),
+      MaterialPageRoute(builder: (context) => child),
       (Route<dynamic> route) => false);
 }
 
-Future<bool> isInternetAvailable() async {
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  if (connectivityResult == ConnectivityResult.mobile) {
-    return true;
-  } else if (connectivityResult == ConnectivityResult.wifi) {
-    return true;
-  }
-  return false;
-}
+// Future<bool> isInternetAvailable() async {
+//   var connectivityResult = await (Connectivity().checkConnectivity());
+//   if (connectivityResult == ConnectivityResult.mobile) {
+//     return true;
+//   } else if (connectivityResult == ConnectivityResult.wifi) {
+//     return true;
+//   }
+//   return false;
+// }
 
 Future<bool> dialogConfirmation(
   BuildContext context, {
@@ -166,87 +154,55 @@ void dialogLoader(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      contentPadding: const EdgeInsets.only(top: 10.0),
-      content: Container(
-        width: 40,
-        height: 140,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: CircularProgressIndicator(
-                      backgroundColor: appColorDisabledButton,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(appColorSecondary),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 80,
-                    width: 80,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Image.asset(
-                        AppImages.dashboardScaningIcon,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                'pleaseWait'.tr(),
-                style: TextStyle(fontSize: 18),
-              )
-            ],
-          ),
-        ),
-      ),
-    ),
+    builder: (context) => getLoaderDialogue(context),
   );
 }
 
-void dialogInternet(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      contentPadding: const EdgeInsets.only(top: 10.0),
-      content: Container(
-        height: 160,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+Widget getLoaderDialogue(BuildContext context) {
+  return AlertDialog(
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+    contentPadding: const EdgeInsets.only(top: 10.0),
+    content: Container(
+      width: 40,
+      height: 140,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(context.borderRadius)),
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              CommunityMaterialIcons.wifi_strength_off,
-              color: Colors.grey[700],
-              size: 40,
+            Stack(
+              children: <Widget>[
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: CircularProgressIndicator(
+                    backgroundColor: context.appColorDisabledButton,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(context.secondaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Image.asset(
+                      AppImages.loaderImage,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
-              height: 20,
+              height: 8,
             ),
             Text(
-              'Check your internet connection.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: colorMatteBlack,
-                fontSize: 18,
-              ),
+              'Loading...',
+              style: TextStyle(fontSize: 18),
             )
           ],
         ),
@@ -254,6 +210,43 @@ void dialogInternet(BuildContext context) {
     ),
   );
 }
+
+// void dialogInternet(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (context) => AlertDialog(
+//       shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(10.0))),
+//       contentPadding: const EdgeInsets.only(top: 10.0),
+//       content: Container(
+//         height: 160,
+//         decoration: BoxDecoration(
+//             color: Colors.white, borderRadius: BorderRadius.circular(20)),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Icon(
+//               CommunityMaterialIcons.wifi_strength_off,
+//               color: Colors.grey[700],
+//               size: 40,
+//             ),
+//             const SizedBox(
+//               height: 20,
+//             ),
+//             Text(
+//               'Check your internet connection.',
+//               textAlign: TextAlign.center,
+//               style: TextStyle(
+//                 color: context.appColorBlack,
+//                 fontSize: 18,
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
 void snack(BuildContext context, String message, {bool info = false}) {
   debugPrint(message);
@@ -275,7 +268,6 @@ void snack(BuildContext context, String message, {bool info = false}) {
 void showSnackBar(BuildContext context, String? msg) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: appColorRed,
     content: Container(
       color: Colors.red,
       child: Text(
@@ -292,9 +284,9 @@ void showSnackBar(BuildContext context, String? msg) {
 void showSuccessSnackBar(BuildContext context, String? msg) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: appColorGreen,
+    backgroundColor: Colors.green,
     content: Container(
-      color: appColorGreen,
+      color: Colors.green,
       child: Text(
         msg ?? '-',
         style: context.textTheme.bodyLarge!.copyWith(
@@ -307,17 +299,17 @@ void showSuccessSnackBar(BuildContext context, String? msg) {
 }
 
 void showWarningSnackBar(BuildContext context, String? msg) {
-  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: appColorSecondary,
-    content: Text(
-      msg ?? '-',
-      style: context.textTheme.bodyLarge!.copyWith(
-        fontSize: 16,
-        color: Colors.white,
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(
+      content: Text(
+        msg ?? '-',
+        style: context.textTheme.bodyLarge!.copyWith(
+          fontSize: 16,
+          color: Colors.white,
+        ),
       ),
-    ),
-  ));
+    ));
 }
 
 Future<void> customLaunch(String receiptUrl) async {
@@ -329,13 +321,21 @@ Future<void> customLaunch(String receiptUrl) async {
   }
 }
 
+//TODO: Make separate folder for loaders and shimmers
 Widget getLoader() => const Center(child: CircularProgressIndicator());
 
-dynamic decodeJWT(String token) {
-  final parts = token.split('.');
-  final payload = parts[1];
-  return json.decode(B64urlEncRfc7515.decodeUtf8(payload));
+void getStickyLoader(context) async {
+  await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => getLoader(),
+  );
 }
+// dynamic decodeJWT(String token) {
+//   final parts = token.split('.');
+//   final payload = parts[1];
+//   return json.decode(B64urlEncRfc7515.decodeUtf8(payload));
+// }
 
 Widget get emptyListMessage =>
     Text('noItemFound'.tr(), textAlign: TextAlign.center);
@@ -358,6 +358,11 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
+
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1)}';
+  String get allInCaps => this.toUpperCase();
+  String get capitalizeFirstofEach =>
+      this.split(" ").map((str) => str.inCaps).join(" ");
 }
 
 class CustomNetworkImage extends StatelessWidget {
