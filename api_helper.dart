@@ -55,7 +55,7 @@ class DioSingleton {
   static DioSingleton get instance => _instance;
 
   DioSingleton._internal() {
-    const int timeout = 100000;
+    const Duration timeout = Duration(seconds: 30);
     dio = Dio(BaseOptions(
       responseType: ResponseType.json,
       connectTimeout: timeout,
@@ -69,7 +69,7 @@ class DioSingleton {
 Future<T> executeSafely<T>(Future<T> Function() function) async {
   try {
     return await function();
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     // debugPrint(e.response?.data.toString());
     log(e.response?.data.toString() ?? '');
     // log('Dio Error: ${e.response?.data['msg']}');

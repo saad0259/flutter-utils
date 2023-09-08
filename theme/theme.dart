@@ -1,35 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../nb_utils/color.dart';
-
-ThemeData getThemeData(BuildContext context) {
+ThemeData getThemeData(
+  BuildContext context, {
+  bool? useMaterial3,
+  String? fontFamily,
+  ColorScheme? colorScheme,
+}) {
   return ThemeData(
-    // useMaterial3: true,
-    primaryColor: appColorPrimary,
-    fontFamily: "Poppins",
-    colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: MaterialColor(0xFFd61f5d, <int, Color>{
-      50: Color(0xFFfbe9ef),
-      100: Color(0xFFf7d2df),
-      200: Color(0xFFf3bcce),
-      300: Color(0xFFefa5be),
-      400: Color(0xFFeb8fae),
-      500: Color(0xFFe6799e),
-      600: Color(0xFFe2628e),
-      700: Color(0xFFde4c7d),
-      800: Color(0xFFda356d),
-      900: Color(0xFFd61f5d),
-    })).copyWith(secondary: appColorSecondary),
-
+    useMaterial3: useMaterial3,
+    primaryColor: context.primaryColor,
+    fontFamily: fontFamily,
+    colorScheme: colorScheme,
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(
         color: Colors.grey[400],
-        fontFamily: 'Poppins',
+        fontFamily: fontFamily,
         fontSize: 15,
       ),
       labelStyle: TextStyle(
-        color: colorMatteBlack,
-        fontFamily: 'Poppins',
+        fontFamily: fontFamily,
         fontSize: 15,
       ),
       fillColor: Colors.grey[100],
@@ -46,6 +35,7 @@ ThemeData getThemeData(BuildContext context) {
   );
 }
 
+// * Scroll Behavior
 class MyScrollBehavior extends ScrollBehavior {
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
@@ -54,39 +44,37 @@ class MyScrollBehavior extends ScrollBehavior {
 }
 
 extension ContextExtensions on BuildContext {
-  TextTheme get textTheme => Theme.of(this).textTheme;
-
-  InputDecorationTheme get inputDecorationTheme =>
-      Theme.of(this).inputDecorationTheme;
-
-  ColorScheme get colorScheme => Theme.of(this).colorScheme;
-
+  // * Theme
   ThemeData get theme => Theme.of(this);
 
-  double get height => MediaQuery.of(this).size.height;
+  TextTheme get textTheme => theme.textTheme;
+  ColorScheme get colorScheme => theme.colorScheme;
+  InputDecorationTheme get inputDecorationTheme => theme.inputDecorationTheme;
+  Color get primaryColor => theme.colorScheme.primary;
+  Color get secondaryColor => theme.colorScheme.secondary;
 
-  double get width => MediaQuery.of(this).size.width;
+  String get fontFamily => textTheme.bodyLarge!.fontFamily!;
 
-  double get statusBarHeight => MediaQuery.of(this).padding.top;
+  // * MediaQuery
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
 
-  double get bottomBarHeight => MediaQuery.of(this).padding.bottom;
+  double get height => mediaQuery.size.height;
+  double get width => mediaQuery.size.width;
+  double get statusBarHeight => mediaQuery.padding.top;
+  double get bottomBarHeight => mediaQuery.padding.bottom;
 
-  //* Colors
-  Color get primaryColor => Theme.of(this).colorScheme.primary;
-  Color get primaryColorLight => Theme.of(this).primaryColorLight;
-  Color get primaryColorDark => Theme.of(this).primaryColorDark;
+  //* Default Colors
+  Color get appColorGreen => const Color(0xff317020);
+  Color get appColorRed => const Color(0xffe74c3c);
+  Color get appColorBlue => const Color(0xff204051);
+  Color get appColorSubText => const Color(0xff4C5264);
+  Color get appColorDisabledButton => const Color(0xffE4E4E4);
+  Color get appColorGrey => const Color(0XFF6C6C6C);
+  Color get appColorBackground => const Color(0xFFF2F5FA);
+  Color get appColorWhite => const Color(0xFFFFFFFF);
+  Color get appColorBlack => const Color(0XFF2e2e2e);
 
-  Color get whiteColor => const Color(0xFFFFFFFF);
-  Color get blackColor => const Color(0XFF2e2e2e);
-  Color get greyColor => const Color(0XFF6C6C6C);
-  Color get background => const Color(0xFFF2F5FA);
-
+  // * Default Sizes
   double get elevation => 3.0;
   double get borderRadius => 20.0;
-
-  TextStyle get toolbarText => const TextStyle(
-        color: Colors.white,
-        fontFamily: 'Poppins',
-        fontSize: 16,
-      );
 }
