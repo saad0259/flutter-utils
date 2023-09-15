@@ -18,8 +18,11 @@ class Request {
   Future<Response<dynamic>> _sendRequest(Method method, String baseUrl) async {
     final dio = DioSingleton.instance.dio;
     try {
-      return await dio.request(baseUrl + _url,
-          options: Options(method: _getMethodString(method)), data: _body);
+      return await dio.request(
+        baseUrl + _url,
+        options: Options(method: _getMethodString(method)),
+        data: _body,
+      );
     } catch (e) {
       log('Dio Error: $e');
       return Future.error(e);
