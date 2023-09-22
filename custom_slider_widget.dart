@@ -30,7 +30,6 @@ class _CustomSliderWidgetState extends State<CustomSliderWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 15),
         Text(widget.title),
         const SizedBox(height: 10),
         AnimatedSliderValue(widget.value ?? 0),
