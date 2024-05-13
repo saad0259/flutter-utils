@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'snippets.dart';
+import 'snippets/reusable_widgets.dart';
 
 class CustomTabbedButton extends StatefulWidget {
   const CustomTabbedButton({
-    Key? key,
+    super.key,
     required this.items,
     required this.onChanged,
     required this.initialIndex,
     this.unselectedColor,
     this.selectedIcon,
-  }) : super(key: key);
+  });
 
   final List<CustomTabItem> items;
   final Function(int) onChanged;

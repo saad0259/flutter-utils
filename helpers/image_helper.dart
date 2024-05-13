@@ -1,3 +1,5 @@
+// import 'package:cached_network_image/cached_network_image.dart';
+
 enum ImageType { network, file, asset, unknown }
 
 extension ImageTypeExtension on ImageType {
@@ -15,25 +17,56 @@ extension ImageTypeExtension on ImageType {
   }
 }
 
-class CustomImageHelper {
-  ImageType getImageType(String imagePath) {
-    try {
-      final String leftSubstring = imagePath.substring(0, 8).toLowerCase();
+// class CustomImageHelper {
+//   ImageType getImageType(String imagePath) {
+//     try {
+//       final String leftSubstring = imagePath.substring(0, 8).toLowerCase();
 
-      if (leftSubstring.contains('http')) {
-        return ImageType.network;
-      } else if (leftSubstring.contains('/data')) {
-        return ImageType.file;
-      } else if (leftSubstring.contains('asset')) {
-        return ImageType.asset;
-      } else {
-        return ImageType.unknown;
-      }
-    } catch (e) {
-      print('Image extension error : $e');
-      return ImageType.unknown;
-    }
-  }
+//       if (leftSubstring.contains('http')) {
+//         return ImageType.network;
+//       } else if (leftSubstring.contains('/data')) {
+//         return ImageType.file;
+//       } else if (leftSubstring.contains('asset')) {
+//         return ImageType.asset;
+//       } else {
+//         return ImageType.unknown;
+//       }
+//     } catch (e) {
+//       print('Image extension error : $e');
+//       return ImageType.unknown;
+//     }
+//   }
+
+//   class CustomNetworkImage extends StatelessWidget {
+//   const CustomNetworkImage(
+//     this.source, {
+//     Key? key,
+//     this.fit,
+//     this.errorWidget,
+//     this.width,
+//     this.height,
+//     this.alignment,
+//   }) : super(key: key);
+//   final String source;
+//   final BoxFit? fit;
+//   final Widget? errorWidget;
+//   final double? width;
+//   final double? height;
+//   final Alignment? alignment;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return CachedNetworkImage(
+//       imageUrl: source,
+//       fit: fit ?? BoxFit.cover,
+//       width: width,
+//       height: height,
+//       alignment: alignment ?? Alignment.center,
+//       errorWidget: (context, url, error) =>
+//           errorWidget ?? const Icon(Icons.error),
+//     );
+//   }
+// }
 
   // Future<FunctionResponse> pickUserImage(BuildContext context) async {
   //   FunctionResponse _fResponse = getIt<FunctionResponse>();
@@ -104,4 +137,4 @@ class CustomImageHelper {
 
   //   return _fResponse;
   // }
-}
+// }
