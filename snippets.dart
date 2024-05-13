@@ -265,53 +265,6 @@ void snack(BuildContext context, String message, {bool info = false}) {
     ));
 }
 
-void showSnackBar(BuildContext context, String? msg) {
-  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Container(
-      color: Colors.red,
-      child: Text(
-        msg ?? '-',
-        style: context.textTheme.bodyLarge!.copyWith(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  ));
-}
-
-void showSuccessSnackBar(BuildContext context, String? msg) {
-  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: Colors.green,
-    content: Container(
-      color: Colors.green,
-      child: Text(
-        msg ?? '-',
-        style: context.textTheme.bodyLarge!.copyWith(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  ));
-}
-
-void showWarningSnackBar(BuildContext context, String? msg) {
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(
-      content: Text(
-        msg ?? '-',
-        style: context.textTheme.bodyLarge!.copyWith(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-      ),
-    ));
-}
-
 Future<void> customLaunch(String receiptUrl) async {
   final Uri url = Uri.parse(receiptUrl);
   if (await canLaunchUrl(url)) {
@@ -493,6 +446,8 @@ Shimmer shimmerGridEffect({
   double itemAspectRatio = 1,
   int itemCount = 20,
   double itemBorderRadius = 5,
+  int crossAxisCount = 2,
+  bool shrinkWrap = true,
 }) {
   return Shimmer.fromColors(
     baseColor: baseColor,
@@ -500,10 +455,10 @@ Shimmer shimmerGridEffect({
     child: Padding(
       padding: padding,
       child: GridView.builder(
-        shrinkWrap: true,
+        shrinkWrap: shrinkWrap,
         itemCount: itemCount,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: crossAxisCount,
           childAspectRatio: itemAspectRatio,
         ),
         itemBuilder: (BuildContext context, int index) {
@@ -585,4 +540,86 @@ extension MapExtension<K, V> on Map<K, V> {
 
     return convertedMap;
   }
+}
+
+class SpacedColumn extends Column {
+  SpacedColumn({
+    Key? key,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    MainAxisSize mainAxisSize = MainAxisSize.max,
+    TextDirection? textDirection,
+    VerticalDirection verticalDirection = VerticalDirection.down,
+    TextBaseline? textBaseline,
+    List<Widget> children = const <Widget>[],
+    double spacing = 0,
+  }) : super(
+          key: key,
+          mainAxisAlignment: mainAxisAlignment,
+          crossAxisAlignment: crossAxisAlignment,
+          mainAxisSize: mainAxisSize,
+          verticalDirection: verticalDirection,
+          textBaseline: textBaseline,
+          children: children
+              .map((e) => Padding(
+                    padding: EdgeInsets.only(bottom: spacing),
+                    child: e,
+                  ))
+              .toList(),
+        );
+}
+
+class SpacedRow extends Row {
+  SpacedRow({
+    Key? key,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    MainAxisSize mainAxisSize = MainAxisSize.max,
+    TextDirection? textDirection,
+    VerticalDirection verticalDirection = VerticalDirection.down,
+    TextBaseline? textBaseline,
+    List<Widget> children = const <Widget>[],
+    double spacing = 0,
+  }) : super(
+          key: key,
+          mainAxisAlignment: mainAxisAlignment,
+          crossAxisAlignment: crossAxisAlignment,
+          mainAxisSize: mainAxisSize,
+          verticalDirection: verticalDirection,
+          textBaseline: textBaseline,
+          children: children
+              .expand((e) => [
+                    e,
+                    SizedBox(
+                      width: spacing,
+                    )
+                  ])
+              .toList()
+            ..removeLast(),
+        );
+}
+
+class ExpandedElevatedButton extends ElevatedButton {
+  ExpandedElevatedButton({
+    Key? key,
+    required VoidCallback? onPressed,
+    VoidCallback? onLongPress,
+    ButtonStyle? style,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    Clip clipBehavior = Clip.none,
+    required Widget child,
+  }) : super(
+          key: key,
+          onPressed: onPressed,
+          onLongPress: onLongPress,
+          style: style,
+          focusNode: focusNode,
+          autofocus: autofocus,
+          clipBehavior: clipBehavior,
+          child: SizedBox(
+            width: double.infinity,
+            child: Center(child: child),
+          ),
+        );
 }

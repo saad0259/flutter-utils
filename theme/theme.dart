@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'button_theme.dart';
+import 'input_theme.dart';
+
 ThemeData getThemeData(
   BuildContext context, {
   bool? useMaterial3,
@@ -8,30 +11,12 @@ ThemeData getThemeData(
 }) {
   return ThemeData(
     useMaterial3: useMaterial3,
-    primaryColor: context.primaryColor,
+    primaryColor: colorScheme?.primary,
     fontFamily: fontFamily,
     colorScheme: colorScheme,
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: TextStyle(
-        color: Colors.grey[400],
-        fontFamily: fontFamily,
-        fontSize: 15,
-      ),
-      labelStyle: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 15,
-      ),
-      fillColor: Colors.grey[100],
-      filled: true,
-      contentPadding: const EdgeInsets.all(16),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(context.borderRadius),
-        borderSide: const BorderSide(color: Colors.white),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(context.borderRadius),
-      ),
-    ),
+    inputDecorationTheme: inputDecoration(fontFamily, context),
+    elevatedButtonTheme: elevatedButtonTheme(context),
+    textButtonTheme: textButtonTheme(context),
   );
 }
 
@@ -48,8 +33,10 @@ extension ContextExtensions on BuildContext {
   ThemeData get theme => Theme.of(this);
 
   TextTheme get textTheme => theme.textTheme;
-  ColorScheme get colorScheme => theme.colorScheme;
   InputDecorationTheme get inputDecorationTheme => theme.inputDecorationTheme;
+  ElevatedButtonThemeData get elevatedButtonTheme => theme.elevatedButtonTheme;
+
+  ColorScheme get colorScheme => theme.colorScheme;
   Color get primaryColor => theme.colorScheme.primary;
   Color get secondaryColor => theme.colorScheme.secondary;
 
