@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void push(BuildContext context, Widget child, String routeName) {
+void push(BuildContext context, Widget child, {String? routeName}) {
   Navigator.of(context).push(
     MaterialPageRoute(
       builder: (context) => child,
@@ -15,7 +15,7 @@ void popTillFirst(BuildContext context) {
 
 void pop(BuildContext context) => Navigator.of(context).pop();
 
-void replace(BuildContext context, Widget child, String routeName) {
+void replace(BuildContext context, Widget child, {String? routeName}) {
   Navigator.of(context).pushReplacement(MaterialPageRoute(
     builder: (context) => child,
     settings: RouteSettings(name: routeName),
