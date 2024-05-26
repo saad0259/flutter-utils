@@ -8,7 +8,7 @@ void snack(BuildContext context, String message, {bool info = false}) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(
-      backgroundColor: info ? context.primaryColor : Colors.red,
+      backgroundColor: info ? context.primaryColor : context.colorScheme.error,
       // behavior: SnackBarBehavior.floating,
       content: Text(
         message,
