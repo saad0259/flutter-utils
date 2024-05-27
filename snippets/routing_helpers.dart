@@ -23,14 +23,21 @@ void popAllAndPush(BuildContext context, Widget child) {
   push(context, child);
 }
 
-void popAllAndReplace(BuildContext context, Widget child) {
+void popAllAndPushNamed(BuildContext context, String route,
+    {Object? arguments}) {
   popTillFirst(context);
-  replace(context, child);
+  pushNamed(context, route, arguments: arguments);
 }
 
-void popAllAndReplaceNamed(BuildContext context, String route) {
+// void popAllAndReplace(BuildContext context, Widget child) {
+//   popTillFirst(context);
+//   replace(context, child);
+// }
+
+void popAllAndReplaceNamed(BuildContext context, String route,
+    {Object? arguments}) {
   popTillFirst(context);
-  replaceNamed(context, route);
+  replaceNamed(context, route, arguments: arguments);
 }
 
 void pop(BuildContext context) => Navigator.of(context).pop();
