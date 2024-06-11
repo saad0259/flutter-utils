@@ -79,7 +79,7 @@ class _CustomTabbedButtonState extends State<CustomTabbedButton>
                                     : theme.brightness == Brightness.light
                                         ? Colors.black
                                         : Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                           ),
                           onPressed: () {
                             setState(() {
