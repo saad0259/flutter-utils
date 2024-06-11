@@ -24,11 +24,31 @@ ThemeData getThemeData(
 class MyScrollBehavior extends ScrollBehavior {
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
-    return BouncingScrollPhysics();
+    return const BouncingScrollPhysics();
   }
 }
 
 extension ContextExtensions on BuildContext {
+  double get rMinHeight => 720.0;
+  double get rTabletWidth => 800.0;
+  double get rLaptopWidth => 1024.0;
+  double get rLargeLaptopWidth => 1440.0;
+
+  bool get isSmallScreen => isPhone || isTablet;
+
+  bool get isPhone => width < rTabletWidth;
+  bool get isTablet => width < rLaptopWidth;
+  bool get isLaptop => width >= rLaptopWidth && width < rLargeLaptopWidth;
+  bool get isLargeLaptop => width >= rLargeLaptopWidth;
+
+  double getResponsiveHorizontalPadding() {
+    return isTablet
+        ? 16
+        : isLaptop
+            ? (rLaptopWidth - rTabletWidth) / 2
+            : (rLargeLaptopWidth - rLaptopWidth) / 2;
+  }
+
   // * Theme
   ThemeData get theme => Theme.of(this);
 
