@@ -70,3 +70,56 @@ void snack(BuildContext context, String message, {bool info = false}) {
     return response;
   }
 }
+
+void sureAlert({
+  required BuildContext context,
+  required String message,
+  required void Function() onYes,
+}) =>
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        // contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 40, horizontal: 120),
+        // actionsPadding:
+        //     const EdgeInsets.symmetric(vertical: 40, horizontal: 120) -
+        //         const EdgeInsets.only(top: 40),
+        actionsAlignment: MainAxisAlignment.center,
+        title: Icon(
+          Icons.help_outline,
+          color: Theme.of(context).primaryColor,
+          size: 90,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Are you sure?",
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text("Yes"),
+            onPressed: () {
+              onYes();
+              pop(context);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+            ),
+            child: const Text("No"),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
