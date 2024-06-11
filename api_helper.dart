@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../utils/app_preferences.dart';
+// import '../utils/app_preferences.dart';
 
 // * Dio Start
 enum Method { GET, POST, PATCH, DELETE }
@@ -20,15 +20,14 @@ class Request {
   Future<Response<dynamic>> _sendRequest(Method method, String baseUrl) async {
     final dio = DioSingleton.instance.dio;
     try {
-      final String token =
-          await globalPreferences?.getString(AppPreferences.TOKEN) ?? '';
+      // final String token =
+      //     await globalPreferences?.getString(AppPreferences.TOKEN) ?? '';
 
       return await dio.request(
         baseUrl + _url,
-        options: Options(
-          method: _getMethodString(method),
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: Options(method: _getMethodString(method)
+            // headers: {'Authorization': 'Bearer $token'},
+            ),
         data: _body,
       );
     } catch (e) {
