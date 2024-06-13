@@ -9,3 +9,10 @@ String? Function(String?) get emailValidator => (String? email) => RegExp(
     ).hasMatch(email ?? "")
         ? null
         : 'Enter a valid email';
+
+String? Function(String?) get numberValidator =>
+    (String? number) => number?.isEmpty ?? true
+        ? "This field is mandatory"
+        : RegExp(r"^[0-9]*$").hasMatch(number ?? "")
+            ? null
+            : "Enter a valid number";
