@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import 'routing_helpers.dart';
@@ -123,3 +124,41 @@ void sureAlert({
         ],
       ),
     );
+
+class ConfirmationPopup extends StatelessWidget {
+  const ConfirmationPopup({
+    Key? key,
+    required this.onConfirm,
+    this.onCancel,
+    this.dialogText,
+  }) : super(key: key);
+
+  final Function onConfirm;
+  final Function? onCancel;
+  final String? dialogText;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Text(dialogText ?? 'areYouSureWantToCompleteThisAction'.tr()),
+      actions: [
+        //confirm and cancel button
+        TextButton(
+          onPressed: () => onCancel ?? pop(context),
+          child: Text('cancel'.tr()),
+        ),
+
+        ElevatedButton(
+          onPressed: () async {
+            await onConfirm.call();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(2.0),
+            visualDensity: VisualDensity.compact,
+          ),
+          child: Text('confirm'.tr()),
+        ),
+      ],
+    );
+  }
+}
