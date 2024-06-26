@@ -162,7 +162,7 @@ class ConfirmationPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Text(dialogText ?? 'areYouSureWantToCompleteThisAction'.tr()),
+      content: Text(dialogText ?? 'Are you sure?'),
       actions: [
         //confirm and cancel button
         TextButton(
