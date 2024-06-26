@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import 'routing_helpers.dart';
@@ -168,7 +167,7 @@ class ConfirmationPopup extends StatelessWidget {
         //confirm and cancel button
         TextButton(
           onPressed: () => onCancel ?? pop(context),
-          child: Text('cancel'.tr()),
+          child: Text('cancel'),
         ),
 
         ElevatedButton(
@@ -179,7 +178,7 @@ class ConfirmationPopup extends StatelessWidget {
             padding: EdgeInsets.all(2.0),
             visualDensity: VisualDensity.compact,
           ),
-          child: Text('confirm'.tr()),
+          child: Text('confirm'),
         ),
       ],
     );
