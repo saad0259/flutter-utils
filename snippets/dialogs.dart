@@ -72,6 +72,29 @@ void snack(BuildContext context, String message, {bool info = false}) {
   }
 }
 
+void alert(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Icon(
+        Icons.error_outline,
+        color: Colors.red,
+        size: 90,
+      ),
+      content: Text(
+        message,
+        style: context.textTheme.bodyMedium,
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          child: const Text("OK"),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    ),
+  );
+}
+
 void sureAlert({
   required BuildContext context,
   required String message,
