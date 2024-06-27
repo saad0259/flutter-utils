@@ -1,30 +1,30 @@
 import 'dart:math';
-import 'dart:ui' as ui;
+// import 'dart:ui' as ui;
 
-import 'package:file_saver/file_saver.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:file_saver/file_saver.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:universal_html/html.dart' as html;
+// import 'package:flutter/rendering.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import './theme/theme.dart';
-import 'snippets/dialogs.dart';
+// import 'snippets/dialogs.dart';
 
-Widget getErrorMessage(BuildContext context, e) {
-  debugPrint(e);
+// Widget getErrorMessage(BuildContext context, e) {
+//   debugPrint(e);
 
-  return Center(
-    child: Text(
-      e is FirebaseException ? e.message ?? e.code : e,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
-      textAlign: TextAlign.center,
-    ),
-  );
-}
+//   return Center(
+//     child: Text(
+//       e is FirebaseException ? e.message ?? e.code : e,
+//       style:
+//           Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+//       textAlign: TextAlign.center,
+//     ),
+//   );
+// }
 
 Future<void> customLaunch(String receiptUrl) async {
   final Uri url = Uri.parse(receiptUrl);
@@ -175,52 +175,52 @@ class CustomRow extends StatelessWidget {
   }
 }
 
-Future<void> downloadWidgetIntoImage(GlobalKey key) async {
-  try {
-    RenderRepaintBoundary boundary =
-        key.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-    final blob = html.Blob([pngBytes]);
-    final url = html.Url.createObjectUrlFromBlob(blob);
-    await FileSaver.instance.saveFile(
-        name: '${DateTime.now().toString()}.png',
-        bytes: pngBytes,
-        mimeType: MimeType.png,
-        ext: 'png');
+// Future<void> downloadWidgetIntoImage(GlobalKey key) async {
+//   try {
+//     RenderRepaintBoundary boundary =
+//         key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+//     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+//     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+//     Uint8List pngBytes = byteData!.buffer.asUint8List();
+//     final blob = html.Blob([pngBytes]);
+//     final url = html.Url.createObjectUrlFromBlob(blob);
+//     await FileSaver.instance.saveFile(
+//         name: '${DateTime.now().toString()}.png',
+//         bytes: pngBytes,
+//         mimeType: MimeType.png,
+//         ext: 'png');
 
-    html.Url.revokeObjectUrl(url);
-  } catch (e) {
-    print(e.toString());
-    rethrow;
-  }
-}
+//     html.Url.revokeObjectUrl(url);
+//   } catch (e) {
+//     print(e.toString());
+//     rethrow;
+//   }
+// }
 
-void copyToClipboard(BuildContext context, String text) {
-  final textarea = html.TextAreaElement();
-  html.document.body?.append(textarea);
-  textarea.style.border = '0';
-  textarea.style.margin = '0';
-  textarea.style.padding = '0';
-  textarea.style.opacity = '0';
-  textarea.style.position = 'absolute';
-  textarea.readOnly = true;
-  textarea.value = text;
-  textarea.select();
-  html.document.execCommand('copy');
-  textarea.remove();
-  snack(context, 'Copied to clipboard', info: true);
-}
+// void copyToClipboard(BuildContext context, String text) {
+//   final textarea = html.TextAreaElement();
+//   html.document.body?.append(textarea);
+//   textarea.style.border = '0';
+//   textarea.style.margin = '0';
+//   textarea.style.padding = '0';
+//   textarea.style.opacity = '0';
+//   textarea.style.position = 'absolute';
+//   textarea.readOnly = true;
+//   textarea.value = text;
+//   textarea.select();
+//   html.document.execCommand('copy');
+//   textarea.remove();
+//   snack(context, 'Copied to clipboard', info: true);
+// }
 
 String parseDate(DateTime date) {
   return DateFormat.yMMMd().format(date);
 }
 
-Future<String> uploadImage(
-    {required Reference storage,
-    required String name,
-    required Uint8List image}) async {
-  final resp = await storage.child('$name.png').putData(image);
-  return resp.ref.getDownloadURL();
-}
+// Future<String> uploadImage(
+//     {required Reference storage,
+//     required String name,
+//     required Uint8List image}) async {
+//   final resp = await storage.child('$name.png').putData(image);
+//   return resp.ref.getDownloadURL();
+// }
