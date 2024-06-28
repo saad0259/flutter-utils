@@ -83,7 +83,7 @@ Future<T> executeSafely<T>(Future<T> Function() function) async {
     // debugPrint(e.response?.data.toString());
     log(e.response?.data.toString() ?? '');
     // log('Dio Error: ${e.response?.data['msg']}');
-    throw e.response?.data['message'];
+    throw e.response?.data['msg'];
   } catch (e) {
     debugPrint(e.toString());
     rethrow;
