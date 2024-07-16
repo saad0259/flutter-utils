@@ -7,8 +7,8 @@ import 'dart:math';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:intl/intl.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 import './theme/theme.dart';
 // import 'snippets/dialogs.dart';
@@ -26,14 +26,14 @@ import './theme/theme.dart';
 //   );
 // }
 
-Future<void> customLaunch(String receiptUrl) async {
-  final Uri url = Uri.parse(receiptUrl);
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    print(' could not launch $url');
-  }
-}
+// Future<void> customLaunch(String receiptUrl) async {
+//   final Uri url = Uri.parse(receiptUrl);
+//   if (await canLaunchUrl(url)) {
+//     await launchUrl(url);
+//   } else {
+//     print(' could not launch $url');
+//   }
+// }
 
 void alert(BuildContext context, String message,
     {bool info = false, IconData? icon, String? title}) {
@@ -213,9 +213,9 @@ class CustomRow extends StatelessWidget {
 //   snack(context, 'Copied to clipboard', info: true);
 // }
 
-String parseDate(DateTime date) {
-  return DateFormat.yMMMd().format(date);
-}
+// String parseDate(DateTime date) {
+//   return DateFormat.yMMMd().format(date);
+// }
 
 // Future<String> uploadImage(
 //     {required Reference storage,
