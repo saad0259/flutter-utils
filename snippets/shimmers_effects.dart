@@ -128,8 +128,8 @@ Shimmer shimmerGridEffect({
 
 Shimmer shimmerDashboardEffect() {
   return Shimmer.fromColors(
-    baseColor: Colors.grey[300]!,
-    highlightColor: Colors.grey[100]!,
+    baseColor: shimmerbaseColor,
+    highlightColor: shimmerHighlightColor,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40.0) +
           const EdgeInsets.only(top: 15.0, bottom: 50),

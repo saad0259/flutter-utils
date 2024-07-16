@@ -26,8 +26,8 @@ class FunctionResponse {
   }
 
   // @Deprecated('Use fResponse.failed(message: "' '")')
-  void feedback(String _message) {
-    message = _message;
+  void feedback(String message) {
+    message = message;
   }
 
   void printResponse() {

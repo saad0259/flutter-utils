@@ -8,7 +8,7 @@ void snack(BuildContext context, String message, {bool info = false}) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(
-      backgroundColor: info ? context.primaryColor : Colors.red,
+      backgroundColor: info ? context.primaryColor : context.colorScheme.error,
       // behavior: SnackBarBehavior.floating,
       content: Text(
         message,
@@ -68,5 +68,119 @@ void snack(BuildContext context, String message, {bool info = false}) {
       },
     );
     return response;
+  }
+}
+
+void alert(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Icon(
+        Icons.error_outline,
+        color: Colors.red,
+        size: 90,
+      ),
+      content: Text(
+        message,
+        style: context.textTheme.bodyMedium,
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          child: const Text("OK"),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    ),
+  );
+}
+
+void sureAlert({
+  required BuildContext context,
+  required String message,
+  required void Function() onYes,
+}) =>
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        // contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 40, horizontal: 120),
+        // actionsPadding:
+        //     const EdgeInsets.symmetric(vertical: 40, horizontal: 120) -
+        //         const EdgeInsets.only(top: 40),
+        actionsAlignment: MainAxisAlignment.center,
+        title: Icon(
+          Icons.help_outline,
+          color: Theme.of(context).primaryColor,
+          size: 90,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Are you sure?",
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text("Yes"),
+            onPressed: () {
+              onYes();
+              pop(context);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+            ),
+            child: const Text("No"),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+
+class ConfirmationPopup extends StatelessWidget {
+  const ConfirmationPopup({
+    Key? key,
+    required this.onConfirm,
+    this.onCancel,
+    this.dialogText,
+  }) : super(key: key);
+
+  final Function onConfirm;
+  final Function? onCancel;
+  final String? dialogText;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Text(dialogText ?? 'Are you sure?'),
+      actions: [
+        //confirm and cancel button
+        TextButton(
+          onPressed: () => onCancel ?? pop(context),
+          child: Text('cancel'),
+        ),
+
+        ElevatedButton(
+          onPressed: () async {
+            await onConfirm.call();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(2.0),
+            visualDensity: VisualDensity.compact,
+          ),
+          child: Text('confirm'),
+        ),
+      ],
+    );
   }
 }

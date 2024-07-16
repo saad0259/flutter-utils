@@ -67,7 +67,8 @@ class ExpandedElevatedButton extends ElevatedButton {
 Widget get emptyListMessage =>
     const Text('No item found', textAlign: TextAlign.center);
 
-Widget getLoader() => const Center(child: CircularProgressIndicator());
+Widget getLoader({Color? color}) =>
+    Center(child: CircularProgressIndicator(color: color));
 
 void getStickyLoader(context) async {
   await showDialog(
