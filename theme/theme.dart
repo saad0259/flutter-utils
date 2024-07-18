@@ -72,5 +72,5 @@ extension ContextExtensions on BuildContext {
 
   // * Default Sizes
   double get elevation => 3.0;
-  double get borderRadius => 20.0;
+  double get borderRadius => 10.0;
 }
