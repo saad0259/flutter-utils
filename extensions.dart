@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 // extension StringExtension on String {
 //   String capitalize() {
@@ -54,36 +54,36 @@
 //   }
 // }
 
-// extension DateTimeExtension on DateTime {
-//   String formatDate() {
-//     return DateFormat('yyyy-MM-dd').format(this);
-//   }
+extension DateTimeExtension on DateTime {
+  String formatDate({String? format}) {
+    return DateFormat(format ?? 'yyyy-MM-dd').format(this);
+  }
 
-//   String format() {
-//     return DateFormat('yyyy-MM-dd hh:mm a').format(this);
-//   }
+  String format({String? format}) {
+    return DateFormat(format ?? 'yyyy-MM-dd hh:mm a').format(this);
+  }
 
-//   String formatDateHumanReadable() {
-//     String result = '';
-//     DateTime today = DateTime.now();
-//     DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+  String formatDateHumanReadable() {
+    String result = '';
+    DateTime today = DateTime.now();
+    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
 
-//     if (year == today.year && month == today.month && day == today.day) {
-//       result = 'Today';
-//     } else {
-//       if (year == yesterday.year &&
-//           month == yesterday.month &&
-//           day == yesterday.day) {
-//         result = 'Yesterday';
-//       } else {
-//         result = DateFormat.MMMEd().format(this);
-//       }
-//     }
+    if (year == today.year && month == today.month && day == today.day) {
+      result = 'Today';
+    } else {
+      if (year == yesterday.year &&
+          month == yesterday.month &&
+          day == yesterday.day) {
+        result = 'Yesterday';
+      } else {
+        result = DateFormat.MMMEd().format(this);
+      }
+    }
 
-//     return result;
-//   }
+    return result;
+  }
 
-//   String formatTime() {
-//     return DateFormat('hh:mm a').format(this);
-//   }
-// }
+  String formatTime() {
+    return DateFormat('hh:mm a').format(this);
+  }
+}
