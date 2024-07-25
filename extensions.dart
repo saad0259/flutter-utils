@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // extension StringExtension on String {
@@ -55,8 +56,9 @@ import 'package:intl/intl.dart';
 // }
 
 extension DateTimeExtension on DateTime {
-  String formatDate({String? format}) {
-    return DateFormat(format ?? 'yyyy-MM-dd').format(this);
+  String formatDate({String? format, Locale locale = const Locale('en')}) {
+    return DateFormat(format ?? 'yyyy-MM-dd hh:mm a', locale.toString())
+        .format(this);
   }
 
   String format({String? format}) {
