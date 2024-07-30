@@ -44,13 +44,12 @@ regularWhiteText14(color, {fontStyle, fontWeight = FontWeight.normal}) =>
       fontStyle: fontStyle,
       decorationThickness: 0,
     );
-regularText15(color, {fontStyle, fontWeight = FontWeight.normal}) =>
-    TextStyle(
-          fontSize: 15,
-          color: color,
-          fontWeight: fontWeight,
-          fontStyle: fontStyle,
-          decorationThickness: 0,
+regularText15(color, {fontStyle, fontWeight = FontWeight.normal}) => TextStyle(
+      fontSize: 15,
+      color: color,
+      fontWeight: fontWeight,
+      fontStyle: fontStyle,
+      decorationThickness: 0,
     );
 regularWhiteTextwithPupins14(color,
         {fontStyle, fontWeight = FontWeight.normal}) =>
@@ -213,11 +212,11 @@ regularWhiteText34(color,
       fontWeight: fontWeight,
       fontStyle: fontStyle,
     );
-regularWhiteText(color, {fontStyle, fontSize, double letterSpace = 2.9}) =>
+regularWhiteText(color, {fontSize, double letterSpace = 2.9, fontWeight}) =>
     TextStyle(
       fontSize: fontSize,
       color: color,
-      fontWeight: fontStyle,
+      fontWeight: fontWeight,
       letterSpacing: letterSpace,
     );
 //Bold Text Styles
