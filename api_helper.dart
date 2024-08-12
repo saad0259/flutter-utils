@@ -1,95 +1,89 @@
-// import 'dart:developer';
-
-// import 'package:dio/dio.dart';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-// // import '../utils/app_preferences.dart';
+// import '../utils/app_preferences.dart';
 
-// // * Dio Start
-// enum Method { GET, POST, PATCH, DELETE }
+// * Dio Start
+enum Method { GET, POST, PATCH, DELETE }
 
-// class Request {
-//   final String _url;
-//   final dynamic _body;
+const String baseUrl = kDebugMode
+    ? 'http://10.0.2.2:5500/api/v1'
+    : 'https://vida-middleware.vercel.app/api/v1';
 
-//   Request(
-//     this._url,
-//     this._body,
-//   );
+class Request {
+  final String _url;
+  final dynamic _body;
 
-//   Future<Response<dynamic>> _sendRequest(Method method, String baseUrl) async {
-//     final dio = DioSingleton.instance.dio;
-//     try {
-//       // final String token =
-//       //     await globalPreferences?.getString(AppPreferences.TOKEN) ?? '';
+  Request(
+    this._url,
+    this._body,
+  );
 
-//       return await dio.request(
-//         baseUrl + _url,
-//         options: Options(method: _getMethodString(method)
-//             // headers: {'Authorization': 'Bearer $token'},
-//             ),
-//         data: _body,
-//       );
-//     } catch (e) {
-//       log('Dio Error: $e');
-//       return Future.error(e);
-//     }
-//   }
+  Future<Response<dynamic>> _sendRequest(Method method, String baseUrl) async {
+    final dio = DioSingleton.instance.dio;
+    try {
+      // final String token =
+      //     await globalPreferences?.getString(AppPreferences.TOKEN) ?? '';
 
-//   String _getMethodString(Method method) {
-//     switch (method) {
-//       case Method.GET:
-//         return 'GET';
-//       case Method.POST:
-//         return 'POST';
-//       case Method.PATCH:
-//         return 'PATCH';
-//       case Method.DELETE:
-//         return 'DELETE';
-//     }
-//   }
+      return await dio.request(
+        baseUrl + _url,
+        options: Options(method: _getMethodString(method)
+            // headers: {'Authorization': 'Bearer $token'},
+            ),
+        data: _body,
+      );
+    } catch (e) {
+      log('Dio Error: $e');
+      return Future.error(e);
+    }
+  }
 
-//   Future<Response> get(String baseUrl) => _sendRequest(Method.GET, baseUrl);
+  String _getMethodString(Method method) {
+    switch (method) {
+      case Method.GET:
+        return 'GET';
+      case Method.POST:
+        return 'POST';
+      case Method.PATCH:
+        return 'PATCH';
+      case Method.DELETE:
+        return 'DELETE';
+    }
+  }
 
-//   Future<Response> post(String baseUrl) => _sendRequest(Method.POST, baseUrl);
+  Future<Response> get(String baseUrl) => _sendRequest(Method.GET, baseUrl);
 
-//   Future<Response> patch(String baseUrl) => _sendRequest(Method.PATCH, baseUrl);
+  Future<Response> post(String baseUrl) => _sendRequest(Method.POST, baseUrl);
 
-//   Future<Response> delete(String baseUrl) =>
-//       _sendRequest(Method.DELETE, baseUrl);
-// }
+  Future<Response> patch(String baseUrl) => _sendRequest(Method.PATCH, baseUrl);
 
-// class DioSingleton {
-//   static final DioSingleton _instance = DioSingleton._internal();
-//   late Dio dio;
-//   static DioSingleton get instance => _instance;
+  Future<Response> delete(String baseUrl) =>
+      _sendRequest(Method.DELETE, baseUrl);
+}
 
-//   DioSingleton._internal() {
-//     const Duration timeout = Duration(seconds: 30);
-//     dio = Dio(BaseOptions(
-//       responseType: ResponseType.json,
-//       connectTimeout: timeout,
-//       receiveTimeout: timeout,
-//     ));
-//   }
-// }
+class DioSingleton {
+  static final DioSingleton _instance = DioSingleton._internal();
+  late Dio dio;
+  static DioSingleton get instance => _instance;
 
-// // * Dio End
+  DioSingleton._internal() {
+    const Duration timeout = Duration(seconds: 30);
+    dio = Dio(BaseOptions(
+      responseType: ResponseType.json,
+      connectTimeout: timeout,
+      receiveTimeout: timeout,
+    ));
+  }
+}
 
-// Use a conditional import
-import 'fallback_exception_handler.dart'
-    if (dart.library.io) 'package:dio/dio.dart';
-
-// Conditional definition based on whether Dio is available
-typedef DioException = BaseException;
+// * Dio End
 
 Future<T> executeSafely<T>(Future<T> Function() function) async {
   try {
     return await function();
   } on DioException catch (e) {
-    // This block will only execute if Dio is available and an exception occurs
     log(e.toString());
     rethrow;
   } catch (e) {
