@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -88,4 +89,16 @@ extension DateTimeExtension on DateTime {
   String formatTime() {
     return DateFormat('hh:mm a').format(this);
   }
+}
+
+DateTime getDateTimeFromMap(Map<String, dynamic> map, String key) {
+  var value = map[key];
+  if (value != null) {
+    if (value is String && value.isNotEmpty) {
+      return DateTime.tryParse(value) ?? DateTime.now();
+    } else if (value is Timestamp) {
+      return value.toDate();
+    }
+  }
+  return DateTime.now();
 }
