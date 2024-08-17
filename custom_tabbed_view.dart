@@ -71,12 +71,11 @@ class _CustomTabbedButtonState extends State<CustomTabbedButton>
             .map((e) => Expanded(
                   child: TweenAnimationBuilder<Color?>(
                     tween: ColorTween(
-                      begin: Colors.white,
                       end: _selectedIndex == widget.items.indexOf(e)
                           ? theme.colorScheme.primary
                           : widget.unselectedColor ??
                               ((theme.brightness == Brightness.light)
-                                  ? Colors.white
+                                  ? null
                                   : theme.cardColor),
                     ),
                     duration: _animationController.duration!,
@@ -100,7 +99,7 @@ class _CustomTabbedButtonState extends State<CustomTabbedButton>
                             backgroundColor: color,
                             foregroundColor:
                                 _selectedIndex == widget.items.indexOf(e)
-                                    ? Colors.white
+                                    ? null
                                     : theme.brightness == Brightness.light
                                         ? Colors.black
                                         : Colors.white,
