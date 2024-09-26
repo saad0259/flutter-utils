@@ -8,10 +8,6 @@ import 'package:flutter/foundation.dart';
 // * Dio Start
 enum Method { GET, POST, PATCH, DELETE }
 
-const String baseUrl = kDebugMode
-    ? 'http://10.0.2.2:5500/api/v1'
-    : 'https://vida-middleware.vercel.app/api/v1';
-
 class Request {
   final String _url;
   final dynamic _body;
