@@ -3,16 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// extension StringExtension on String {
-//   String capitalize() {
-//     return "${this[0].toUpperCase()}${substring(1)}";
-//   }
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1)}";
+  }
 
-//   String get inCaps => '${this[0].toUpperCase()}${substring(1)}';
-//   String get allInCaps => toUpperCase();
-//   String get capitalizeFirstofEach =>
-//       split(" ").map((str) => str.inCaps).join(" ");
-// }
+  String get inCaps => '${this[0].toUpperCase()}${substring(1)}';
+  String get allInCaps => toUpperCase();
+  String get capitalizeFirstofEach =>
+      split(" ").map((str) => str.inCaps).join(" ");
+
+  String get sayLess => length <= 40 ? this : '${substring(0, 40)}...';
+}
 
 // //* Turn each map value into a String
 // extension MapExtension<K, V> on Map<K, V> {
