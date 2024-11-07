@@ -13,6 +13,12 @@ import 'package:intl/intl.dart';
 //   String get capitalizeFirstofEach =>
 //       split(" ").map((str) => str.inCaps).join(" ");
 // }
+String? encodeQueryParameters(Map<String, String> params) {
+  return params.entries
+      .map((MapEntry<String, String> e) =>
+          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      .join('&');
+}
 
 // //* Turn each map value into a String
 // extension MapExtension<K, V> on Map<K, V> {
