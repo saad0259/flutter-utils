@@ -157,11 +157,15 @@ class ConfirmationPopup extends StatelessWidget {
     required this.onConfirm,
     this.onCancel,
     this.dialogText,
+    this.cancelText,
+    this.confirmText,
   }) : super(key: key);
 
   final Function onConfirm;
   final Function? onCancel;
   final String? dialogText;
+  final String? cancelText;
+  final String? confirmText;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +175,7 @@ class ConfirmationPopup extends StatelessWidget {
         //confirm and cancel button
         TextButton(
           onPressed: () => onCancel ?? pop(context),
-          child: Text('cancel'),
+          child: Text(cancelText ?? 'cancel'),
         ),
 
         ElevatedButton(
@@ -182,7 +186,7 @@ class ConfirmationPopup extends StatelessWidget {
             padding: EdgeInsets.all(2.0),
             visualDensity: VisualDensity.compact,
           ),
-          child: Text('confirm'),
+          child: Text(confirmText ?? 'confirm'),
         ),
       ],
     );
