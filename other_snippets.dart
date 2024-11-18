@@ -1,17 +1,19 @@
 import 'dart:math';
+
+// import 'package:flutter/rendering.dart';
+// import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 // import 'dart:ui' as ui;
 
 // import 'package:file_saver/file_saver.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:universal_html/html.dart' as html;
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 // import 'package:intl/intl.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 import './theme/theme.dart';
-// import 'snippets/dialogs.dart';
+import 'snippets/dialogs.dart';
 
 // Widget getErrorMessage(BuildContext context, e) {
 //   debugPrint(e);
@@ -197,21 +199,25 @@ class CustomRow extends StatelessWidget {
 //   }
 // }
 
-// void copyToClipboard(BuildContext context, String text) {
-//   final textarea = html.TextAreaElement();
-//   html.document.body?.append(textarea);
-//   textarea.style.border = '0';
-//   textarea.style.margin = '0';
-//   textarea.style.padding = '0';
-//   textarea.style.opacity = '0';
-//   textarea.style.position = 'absolute';
-//   textarea.readOnly = true;
-//   textarea.value = text;
-//   textarea.select();
-//   html.document.execCommand('copy');
-//   textarea.remove();
-//   snack(context, 'Copied to clipboard', info: true);
-// }
+void copyToClipboard(BuildContext context, String text) async {
+  // final textarea = html.TextAreaElement();
+
+  // html.document.body?.append(textarea);
+  // textarea.style.border = '0';
+  // textarea.style.margin = '0';
+  // textarea.style.padding = '0';
+  // textarea.style.opacity = '0';
+  // textarea.style.position = 'absolute';
+  // textarea.readOnly = true;
+  // textarea.value = text;
+  // textarea.select();
+  // html.document.execCommand('copy');
+  // textarea.remove();
+  ClipboardData data = ClipboardData(text: text);
+  await Clipboard.setData(data);
+
+  snack(context, 'Copied to clipboard', info: true);
+}
 
 // String parseDate(DateTime date) {
 //   return DateFormat.yMMMd().format(date);
